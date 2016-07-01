@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8"/>
+	<title>Ajax, PHP e Mysql</title>
+	<script>
+
+	/* (str == "") Checa se o campo está vazio. Se estiver, limpa o conteúdo de txtSugestão e sai da função
+	 * Entretanto, se ocampo não está vazio ocorre o seguinte: 	
+	 * Cria um objeto XMLHttpRequest				
+	 * Cria a função a ser executada quando a resposta do servidor estiver pronta. 
+	 * Envia a requisição fora de um arquivo PHP no servidor 
+	 * Notifica que o parâmetro 'y' foi adicionado á pegarSugestao.php?y=" +str 
+	 * A variável str mantém o conteúdo do campo de entrada 
+	*/
+
+		function mostrarConsumidores(str){
+			var xhttp;
+			if(str == ""){
+				document.getElementById("txtSugestao").innerHTML = "";	
+				return;
+			}
+				xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function(){
+					if(xhttp.readyState == 4 && xhttp.status == 200) {
+						//alert("Deu certo!");
+						document.getElementById("txtSugestao").innerHTML = xhttp.responseText;
+					}
+				};
+
+			xhttp.open("GET", "ajax_php_mysql.php?c="+str, true); // Enviando o valor de 'c' (parâmetro str), pelo método GET, para o arquivo ajax_php_mysql
+			xhttp.send();
+		}
+	</script>
+</head>
+<body>
+	
+	<h2>Ajax, PHP e Mysql</h2>
+	
+	<form action="">
+		<select name="consumidores" onchange="mostrarConsumidores(this.value)">
+			<option value="">Selecione um consumidor</option>
+			<option value="1">Phelipe Guedes</option>
+			<option value="2">Flavia Silveira</option>
+			<option value="3">Larissa Veras</option>
+			<option value="4">João Rodrigues</option>
+			<option value="5">Caio Rebouças</option>
+			<option value="6">Camila Fernandes</option>
+		</select>
+	</form>	
+	
+	<br/><br/>
+
+	<div id="txtSugestao"><b>Informações do consumidor serão listadas aqui...</b></div>
+
+</body>
+</html>
